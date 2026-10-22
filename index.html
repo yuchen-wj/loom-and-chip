@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>织机与芯片 · 从挑花结本到二进制的技术文明谱系 — Loom &amp; Chip</title>
+<meta name="description" content="把南京云锦大花楼织机的「挑花结本」做成可上手操作的交互织造模拟器，用同一份编码的五种介质证明中国织机与雅卡尔卡片、现代计算机说的是同一种语言。">
+<meta name="theme-color" content="#0d1114">
+<meta property="og:type" content="website">
+<meta property="og:title" content="织机与芯片 · Loom &amp; Chip">
+<meta property="og:description" content="从挑花结本到二进制的技术文明谱系：可交互织造模拟器 + 五态同构编码谱系可视化。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:locale:alternate" content="en_US">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#workshop" data-i18n="skip">跳到主要操作区</a>
+
+<!-- ================= 顶部导航 ================= -->
+<nav class="nav" aria-label="模块导航">
+  <div class="nav-brand">
+    <a href="#cover" class="nav-mark">织机与芯片<em>Loom &amp; Chip</em></a>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a href="#workshop" data-i18n="nav_1">纹样工坊</a>
+    <a href="#drafting" data-i18n="nav_2">挑花结本</a>
+    <a href="#weaving" data-i18n="nav_3">投梭织造</a>
+    <a href="#five" data-i18n="nav_4">五态同构</a>
+    <a href="#library" data-i18n="nav_5">织物库</a>
+    <a href="#timeline" data-i18n="nav_6">时间线</a>
+    <a href="#terms" data-i18n="nav_7">术语库</a>
+    <a href="#teach" data-i18n="nav_8">教学包</a>
+    <a href="#team" data-i18n="nav_9">团队</a>
+  </div>
+  <div class="nav-tools">
+    <button class="switch" id="motionBtn" type="button" aria-pressed="false">
+      <span class="switch-dot" aria-hidden="true"></span>
+      <span data-i18n="motion_off">减弱动效</span>
+    </button>
+    <div class="lang" role="group" aria-label="语言 / Language">
+      <button type="button" id="langZh" class="on" aria-pressed="true">中文</button>
+      <button type="button" id="langEn" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= 0 · 封面 ================= -->
+<header id="cover" class="cover">
+  <canvas id="coverCanvas" class="cover-canvas" aria-hidden="true"></canvas>
+  <div class="cover-veil" aria-hidden="true"></div>
+  <div class="cover-inner wrap">
+    <div class="cover-text">
+      <p class="cover-kicker" data-i18n="cover_kicker">全国大学生数字媒体科技作品及创意竞赛 · 数字艺术与可视化设计</p>
+      <h1 class="cover-title">
+        <span class="cover-zh">织机与芯片</span>
+        <span class="cover-en">Loom &amp; Chip</span>
+      </h1>
+      <p class="cover-sub" data-i18n="cover_sub">从挑花结本到二进制的技术文明谱系</p>
+      <p class="cover-lead" data-i18n="cover_lead">
+        一千多年前，南京云锦的织工用一根根丝线编成「花本」，控制大花楼织机上哪几根经线提起、哪几根沉下。
+        那是一份可以卷起来、换下来、复制的程序。今天，我们把它交回你手里：在格子上画一朵团花，看它变成花本、变成穿孔卡片、
+        变成打孔纸带、变成二进制串、变成像素——同一份编码，五种介质。
+      </p>
+      <p class="cover-lead-en" lang="en" data-i18n="cover_lead_en">
+        A thousand years ago, weavers in Nanjing knotted silk cords into a «flower book» — a programme telling a great
+        drawloom which warp threads to raise. This work hands that programme back to you: draw a roundel on a grid and
+        watch it become cords, a punched card, a paper tape, a bit string, a pixel matrix. One encoding, five media.
+      </p>
+      <div class="cover-actions">
+        <a class="btn btn-primary" href="#workshop" data-i18n="cover_cta">开始织造 · Start weaving</a>
+        <a class="btn btn-ghost" href="#five" data-i18n="cover_cta2">先看五态同构</a>
+      </div>
+      <p class="cover-spec" data-i18n="cover_spec">
+        四段可复算算法 · 159 条双语术语 · 6 件云锦纹样 · 8 个技术史节点 · 零依赖离线运行
+      </p>
+    </div>
+    <figure class="cover-art">
+      <canvas id="coverArt" width="720" height="720" role="img"
+              aria-label="缠枝莲纹样按五枚缎纹织成的妆花缎示意，Canvas 程序生成"></canvas>
+      <figcaption data-i18n="cover_art_cap">缠枝莲 · 五枚缎纹织造示意 · Canvas 程序生成</figcaption>
+    </figure>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">▼</div>
+</header>
+
+<main>
+
+<!-- ================= 1 · 纹样工坊 ================= -->
+<section id="workshop" class="sec">
+  <div class="sec-head">
+    <span class="sec-no" aria-hidden="true">01</span>
+    <div>
+      <h2 data-i18n="ws_title">纹样工坊</h2>
+      <p class="sec-sub" data-i18n="ws_sub">Pattern workshop — 在网格上点出一朵花，它将成为一份程序</p>
+    </div>
+    <p class="sec-desc" data-i18n="ws_desc">选择网格尺寸与云锦四色之一，然后点击或拖拽上色。撤销栈会记住每一次落笔；载入预设可以看传统的团花、缠枝莲、四合云与织金几何是怎么排布的。</p>
+  </div>
+
+  <div class="ws-layout">
+    <div class="panel">
+      <div class="ws-toolbar">
+        <div class="seg" role="group" aria-label="网格尺寸">
+          <button type="button" class="seg-btn on" data-size="8">8 × 8</button>
+          <button type="button" class="seg-btn" data-size="16">16 × 16</button>
+        </div>
+        <div class="swatches" role="group" aria-label="云锦配色板" id="swatches"></div>
+        <div class="ws-actions">
+          <button type="button" class="btn btn-sm" id="wsUndo" data-i18n="ws_undo">撤销</button>
+          <button type="button" class="btn btn-sm" id="wsClear" data-i18n="ws_clear">清空</button>
+          <button type="button" class="btn btn-sm" id="wsRandom" data-i18n="ws_random">随机</button>
+        </div>
+      </div>
+
+      <div class="ws-presets" id="wsPresets" role="group" aria-label="云锦预设纹样"></div>
+
+      <div class="ws-stage">
+        <div class="grid-wrap">
+          <div id="wsGrid" class="grid" role="grid" aria-label="纹样绘制网格" aria-describedby="wsHint"></div>
+          <p class="hint" id="wsHint" data-i18n="ws_hint">方向键移动光标，空格或回车落色；也可直接点击或按住拖拽。</p>
+        </div>
+      </div>
+    </div>
+    <div class="ws-side">
+      <details class="readout" id="wsReadout" open>
+        <summary data-i18n="ws_readout">编码摘要</summary>
+        <dl class="kv" id="wsKv"></dl>
+      </details>
+      <div class="panel panel-tips">
+        <h3 data-i18n="ws_tips">三步上手</h3>
+        <ol class="steps" id="wsSteps"></ol>
+      </div>
+    </div>
+    <p class="sr-only" id="wsLive" aria-live="polite"></p>
+  </div>
+</section>
+
+<!-- ================= 2 · 挑花结本 ================= -->
+<section id="drafting" class="sec">
+  <div class="sec-head">
+    <span class="sec-no" aria-hidden="true">02</span>
+    <div>
+      <h2 data-i18n="dr_title">挑花结本</h2>
+      <p class="sec-sub" data-i18n="dr_sub">Pattern drafting — 把纹样编译成每一纬的提沉序列</p>
+    </div>
+    <p class="sec-desc" data-i18n="dr_desc">挑花结本是把纹样换算成经纬编码、再用丝线编结成「花本」的工序。下图竖线为经（脚子线），横线为纬（耳子线），每一个结扣代表该纬该经「提」——这正是本作品的 compileToPattern 所做的事。</p>
+  </div>
+
+  <div class="dr-layout">
+    <div class="panel panel-svg">
+      <div class="panel-head">
+        <h3 data-i18n="dr_huaben">花本线结构</h3>
+        <span class="badge" id="drSize">16 × 16</span>
+      </div>
+      <div class="svg-wrap">
+        <svg id="huabenSvg" viewBox="0 0 360 360" role="img" aria-labelledby="huabenTitle huabenDesc">
+          <title id="huabenTitle">花本线编结结构图</title>
+          <desc id="huabenDesc">竖线代表经线（脚子线），横向结扣代表该纬该经提起，未打结者为沉。</desc>
+        </svg>
+      </div>
+      <p class="hint" data-i18n="dr_hint">点击任意一纬，或使用下方单步按钮，查看该纬的提沉序列。</p>
+    </div>
+
+    <div class="dr-side">
+      <div class="panel">
+        <div class="panel-head">
+          <h3 data-i18n="dr_code">提沉编码</h3>
+          <div class="step-ctl">
+            <button type="button" class="btn btn-sm" id="drPrev" aria-label="上一纬">←</button>
+            <span class="mono" id="drIdx">01 / 16</span>
+            <button type="button" class="btn btn-sm" id="drNext" aria-label="下一纬">→</button>
+          </div>
+        </div>
+        <ul class="code-list" id="drCode"></ul>
+        <p class="hint mono" id="drCurrent" aria-live="polite"></p>
+      </div>
+      <details class="readout" open>
+        <summary data-i18n="dr_stats">花本统计</summary>
+        <dl class="kv" id="drKv"></dl>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3 · 投梭织造 ================= -->
+<section id="weaving" class="sec">
+  <div class="sec-head">
+    <span class="sec-no" aria-hidden="true">03</span>
+    <div>
+      <h2 data-i18n="wv_title">投梭织造</h2>
+      <p class="sec-sub" data-i18n="wv_sub">Weaving — 逐纬交织，看组织如何决定浮长</p>
+    </div>
+    <p class="sec-desc" data-i18n="wv_desc">花部以彩纬浮于表面，地部按所选组织交织。组织循环决定地部的律动：平纹 2、三枚斜纹 3、五枚缎纹 5。放大镜可以看到单个织点的经纬压覆关系。</p>
+  </div>
+
+  <div class="wv-layout">
+    <div class="panel">
+      <div class="canvas-wrap">
+        <canvas id="weaveCanvas" width="640" height="640" role="img"
+                aria-label="织物经纬交织模拟图，逐纬推进。花部为彩色纬浮，地部按所选组织交织。"></canvas>
+        <canvas id="lensCanvas" class="lens" width="160" height="160" aria-label="放大镜：单个织点的经纬压覆关系"></canvas>
+      </div>
+      <div class="wv-controls">
+        <div class="seg" role="group" aria-label="组织类型" id="wvStructures"></div>
+        <div class="wv-buttons">
+          <button type="button" class="btn btn-primary" id="wvPlay" aria-pressed="false" data-i18n="wv_play">播放</button>
+          <button type="button" class="btn btn-sm" id="wvStep" data-i18n="wv_step">单步</button>
+          <button type="button" class="btn btn-sm" id="wvReset" data-i18n="wv_reset">复位</button>
+          <label class="range">
+            <span data-i18n="wv_speed">速度</span>
+            <input type="range" id="wvSpeed" min="1" max="8" value="3" step="1" aria-label="织造速度">
+          </label>
+        </div>
+        <div class="toggles">
+          <label class="check"><input type="checkbox" id="wvHlWeft" checked><span data-i18n="wv_hl_weft">高亮当前纬</span></label>
+          <label class="check"><input type="checkbox" id="wvHlWarp"><span data-i18n="wv_hl_warp">高亮当前经</span></label>
+          <label class="check"><input type="checkbox" id="wvWarpFace"><span data-i18n="wv_face">显示经浮/纬浮</span></label>
+        </div>
+      </div>
+      <p class="sr-only" id="wvLive" aria-live="polite"></p>
+    </div>
+
+    <details class="readout" open>
+      <summary data-i18n="wv_metrics">织造数值</summary>
+      <dl class="kv" id="wvKv"></dl>
+      <div class="legend" id="wvLegend"></div>
+    </details>
+  </div>
+</section>
+
+<!-- ================= 4 · 五态同构 ================= -->
+<section id="five" class="sec sec-wide">
+  <div class="sec-head">
+    <span class="sec-no" aria-hidden="true">04</span>
+    <div>
+      <h2 data-i18n="fv_title">五态同构</h2>
+      <p class="sec-sub" data-i18n="fv_sub">Five isomorphic states — 同一份编码的五种介质</p>
+    </div>
+    <p class="sec-desc" data-i18n="fv_desc">把同一份纹样编码并排铺开：花本线上有没有那一个结、卡片上有没有那一个孔、纸带上有没有那一个眼、二进制位是 0 还是 1、像素是亮还是暗——点击任意一态中的某一位，另外四态会同时亮起同一位。</p>
+  </div>
+
+  <div class="fv-toolbar">
+    <div class="fv-readout" id="fvReadout" aria-live="polite">
+      <span class="mono" id="fvCoord">— 请点击任一位 —</span>
+    </div>
+    <div class="seg" role="group" aria-label="视图">
+      <button type="button" class="seg-btn on" data-view="schematic" data-i18n="fv_schematic">数据视图</button>
+      <button type="button" class="seg-btn" data-view="material" data-i18n="fv_material">实物视图</button>
+    </div>
+    <button type="button" class="btn btn-sm" id="fvRandom" data-i18n="fv_random">随机一位</button>
+  </div>
+
+  <div class="fv-grid" id="fvGrid">
+    <figure class="fv-cell" data-modality="flower">
+      <figcaption><b data-i18n="fv_m1">花本线</b><em data-i18n="fv_m1s">knotted cords</em></figcaption>
+      <div class="fv-canvas" id="fvFlower"></div>
+      <p class="fv-note" data-i18n="fv_m1n">结扣 = 提；无结 = 沉。一纬一串结。</p>
+    </figure>
+    <figure class="fv-cell" data-modality="card">
+      <figcaption><b data-i18n="fv_m2">穿孔卡片</b><em data-i18n="fv_m2s">punched cards</em></figcaption>
+      <div class="fv-canvas" id="fvCard"></div>
+      <p class="fv-note" data-i18n="fv_m2n">一卡一纬，孔位对应经线。</p>
+    </figure>
+    <figure class="fv-cell" data-modality="tape">
+      <figcaption><b data-i18n="fv_m3">打孔纸带</b><em data-i18n="fv_m3s">punched tape</em></figcaption>
+      <div class="fv-canvas" id="fvTape"></div>
+      <p class="fv-note" data-i18n="fv_m3n">八通道 · 孔距 2.54 mm · 折返读取</p>
+    </figure>
+    <figure class="fv-cell" data-modality="binary">
+      <figcaption><b data-i18n="fv_m4">二进制串</b><em data-i18n="fv_m4s">bit string</em></figcaption>
+      <div class="fv-canvas" id="fvBinary"></div>
+      <p class="fv-note" data-i18n="fv_m4n">逐纬一行，一位一比特。</p>
+    </figure>
+    <figure class="fv-cell" data-modality="pixels">
+      <figcaption><b data-i18n="fv_m5">像素矩阵</b><em data-i18n="fv_m5s">pixel matrix</em></figcaption>
+      <div class="fv-canvas" id="fvPixels"></div>
+      <p class="fv-note" data-i18n="fv_m5n">亮像素 = 提，暗像素 = 沉。</p>
+    </figure>
+  </div>
+  <p class="hint fv-hint" id="fvHint" data-i18n="fv_hint">提示：五态互转在算法层可逆——toCard / toTape / toBinary / toPixels 与对应的 from* 逐位还原。</p>
+</section>
+
+<!-- ================= 5 · 织物库 ================= -->
+<section id="library" class="sec">
+  <div class="sec-head">
+    <span class="sec-no" aria-hidden="true">05</span>
+    <div>
+      <h2 data-i18n="lb_title">织物库</h2>
+      <p class="sec-sub" data-i18n="lb_sub">Fabric library — 六件云锦纹样的「纹样 → 花本 → 织物」三态</p>
+    </div>
+    <p class="sec-desc" data-i18n="lb_desc">每一件都完整走完编译与织造：左为纹样矩阵，中为编译所得的花本提沉，右为按五枚缎纹织出的织物。点击「载入工坊」可把它送进 01 继续修改。</p>
+  </div>
+  <div class="lb-list" id="lbList"></div>
+</section>
+
+<!-- ================= 6 · 织造时间线 ================= -->
+<section id="timeline" class="sec">
+  <div class="sec-head">
+    <span class="sec-no" aria-hidden="true">06</span>
+    <div>
+      <h2 data-i18n="tl_title">织造时间线</h2>
+      <p class="sec-sub" data-i18n="tl_sub">Timeline — 中西双轨，八个节点</p>
+    </div>
+    <p class="sec-desc" data-i18n="tl_desc">左列是中国轨，只讲同一时期的中国；右列是西方轨，只讲同一时期的世界。1804 年之后的雅卡尔机、霍列瑞斯制表机与存储程序都归在西方轨，中国轨讲那一时期的中国织造处境。点击节点查看详情；在本模块内按 ← → 可逐步切换。每条史实都标注了来源类别。</p>
+  </div>
+
+  <div class="tl-wrap">
+    <div class="tl-track" id="tlTrack"></div>
+  </div>
+  <div class="tl-detail panel" id="tlDetail"></div>
+  <div class="tl-nav">
+    <button type="button" class="btn btn-sm" id="tlPrev" data-i18n="tl_prev">← 上一节点</button>
+    <span class="mono" id="tlIdx">01 / 08</span>
+    <button type="button" class="btn btn-sm" id="tlNext" data-i18n="tl_next">下一节点 →</button>
+  </div>
+</section>
+
+<!-- ================= 7 · 术语库 ================= -->
+<section id="terms" class="sec">
+  <div class="sec-head">
+    <span class="sec-no" aria-hidden="true">07</span>
+    <div>
+      <h2 data-i18n="tm_title">术语库</h2>
+      <p class="sec-sub" data-i18n="tm_sub">Terminology — 159 条中英双语术语</p>
+    </div>
+    <p class="sec-desc" data-i18n="tm_desc">六个分类：织造组织、纹样母题、材料工艺、织机结构、技术史、术语对照。支持中文、英文与释义全文检索。</p>
+  </div>
+
+  <div class="tm-toolbar">
+    <label class="search">
+      <span class="sr-only">检索术语</span>
+      <input type="search" id="tmSearch" placeholder="检索：团花 / roundel / 花本 / 通经断纬…" data-i18n-ph="tm_ph">
+    </label>
+    <span class="mono tm-count" id="tmCount" aria-live="polite"></span>
+  </div>
+  <div class="chips" id="tmChips" role="group" aria-label="术语分类"></div>
+  <div class="tm-list" id="tmList"></div>
+  <p class="hint" id="tmEmpty" hidden data-i18n="tm_empty">没有匹配的术语，试试其他关键词。</p>
+</section>
+
+<!-- ================= 8 · 教学包 ================= -->
+<section id="teach" class="sec">
+  <div class="sec-head">
+    <span class="sec-no" aria-hidden="true">08</span>
+    <div>
+      <h2 data-i18n="tc_title">教学包</h2>
+      <p class="sec-sub" data-i18n="tc_sub">Teaching pack — 一键导出花本表与织造时序表</p>
+    </div>
+    <p class="sec-desc" data-i18n="tc_desc">把当前纹样的花本编码与逐纬综框提升序列导出为 CSV 或 Markdown，可直接用于课堂演示与作业。全部在本地生成，不联网。</p>
+  </div>
+
+  <div class="tc-layout">
+    <div class="panel">
+      <div class="tc-buttons">
+        <button type="button" class="btn btn-primary" id="tcCsvHuaben" data-i18n="tc_b1">导出花本表 CSV</button>
+        <button type="button" class="btn" id="tcCsvTiming" data-i18n="tc_b2">导出织造时序表 CSV</button>
+        <button type="button" class="btn" id="tcMdHuaben" data-i18n="tc_b3">导出花本表 Markdown</button>
+        <button type="button" class="btn" id="tcMdTiming" data-i18n="tc_b4">导出时序表 Markdown</button>
+        <button type="button" class="btn btn-ghost" id="tcCopy" data-i18n="tc_b5">复制时序表</button>
+      </div>
+      <p class="hint" id="tcStatus" aria-live="polite"></p>
+      <div class="code-preview-frame">
+        <pre class="code-preview" id="tcPreview" tabindex="0" aria-describedby="tcPreviewNote"
+             aria-label="织造时序表预览"></pre>
+      </div>
+      <p class="code-preview-note" id="tcPreviewNote"></p>
+    </div>
+    <details class="readout" open>
+      <summary data-i18n="tc_export">导出内容说明</summary>
+      <ul class="bullets" id="tcNotes"></ul>
+    </details>
+  </div>
+</section>
+
+<!-- ================= 9 · 团队 · 制作 · AI 披露 ================= -->
+<section id="team" class="sec">
+  <div class="sec-head">
+    <span class="sec-no" aria-hidden="true">09</span>
+    <div>
+      <h2 data-i18n="te_title">团队 · 制作 · AI 披露</h2>
+      <p class="sec-sub" data-i18n="te_sub">Team, making, and disclosure</p>
+    </div>
+    <p class="sec-desc" data-i18n="te_desc">本页列明原创资产边界、分工方式与 AI 使用情况。所有结论均可与随包交付的测试脚本互相核对。</p>
+  </div>
+
+  <div class="te-layout">
+    <div class="panel">
+      <h3 data-i18n="te_orig">原创资产界定</h3>
+      <ul class="bullets" id="teOriginal"></ul>
+    </div>
+    <div class="panel">
+      <h3 data-i18n="te_ai">AI 使用披露</h3>
+      <ul class="bullets" id="teAi"></ul>
+    </div>
+    <div class="panel">
+      <h3 data-i18n="te_pending">待替换影像位置清单</h3>
+      <p class="hint" data-i18n="te_pending_note">下列位置当前由 Canvas 噪声与渐变程序生成，无图亦可正常显示；Lead 替换 AI 影像后代码无需改动。</p>
+      <ul class="bullets mono-sm" id="tePending"></ul>
+    </div>
+    <div class="panel">
+      <h3 data-i18n="te_verify">可验证性</h3>
+      <ul class="bullets" id="teVerify"></ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-inner">
+    <p class="foot-title">织机与芯片 · Loom &amp; Chip</p>
+    <p data-i18n="foot_1">从挑花结本到二进制的技术文明谱系 ｜ 全国大学生数字媒体科技作品及创意竞赛 · 数字艺术与可视化设计 ｜ 2026</p>
+    <p data-i18n="foot_2">数字赋能 · 文明互鉴 —— 全部视觉由自绘 SVG / Canvas / CSS 程序生成，零外部依赖，双击即开。</p>
+  </div>
+</footer>
+
+<script src="data_terms.js"></script>
+<script src="data_patterns.js"></script>
+<script src="data_timeline.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
